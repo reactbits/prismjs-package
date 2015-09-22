@@ -1,0 +1,33 @@
+{
+  "name": "prismjs-package",
+  "version": "0.1.0",
+  "description": "prismjs syntax highlighter compiled as npm package",
+  "main": "prism.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sergeyt/prismjs-package"
+  },
+  "keywords": [
+    "prismjs"
+  ],
+  "author": "Sergey Todyshev <stodyshev@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sergeyt/prismjs-package/issues"
+  },
+  "homepage": "https://github.com/sergeyt/prismjs-package",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-git": "^1.4.0",
+    "gulp-header": "^1.7.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-wrapper": "^1.0.0",
+    "lodash": "^3.10.1",
+    "run-sequence": "^1.1.3"
+  }
+}
