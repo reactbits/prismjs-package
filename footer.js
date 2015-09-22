@@ -1,3 +1,7 @@
+
+return Prism;
+};
+
 if (typeof define === 'function' && define.amd) {
 	define(function() { return prism({}, typeof window !== 'undefined' ? window : global); });
 } else if (typeof module === 'object' && module.exports) {
