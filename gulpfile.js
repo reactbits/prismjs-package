@@ -71,13 +71,7 @@ gulp.task("js", function() {
     return path.join("prism", p);
   });
 
-  var exportFooter =
-    "if (typeof define === 'function' && define.amd) {\n" +
-    "\tdefine(function() { return prism({}, typeof window !== 'undefined' ? window : global); });\n" +
-    "} else {\n" +
-    "\tvar w = typeof window !== 'undefined' ? window : global;\n" +
-    "\tprism(this || w, w);\n" + // browser export
-    "}\n";
+  var exportFooter = fs.readFileSync('./footer.js');
 
   return gulp.src(glob)
       .pipe(header('\n/* **********************************************\n' +
