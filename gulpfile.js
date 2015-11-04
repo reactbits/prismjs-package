@@ -18,7 +18,18 @@ gulp.task("default", function() {
 });
 
 gulp.task("test", function() {
-  var prism = require('./prism.js');
+  var Prism = require('./prism.js');
+
+  function highlight(code, lang) {
+    var g = Prism.languages[lang];
+    if (g) {
+      return Prism.highlight(code, g, lang);
+    }
+    return code;
+  }
+
+  var s = highlight("fuction() {\n\tconsole.log('hi');\n}", "js");
+  console.log(s);
 });
 
 gulp.task("clone", function(done) {
