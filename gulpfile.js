@@ -50,25 +50,9 @@ gulp.task("css", function() {
     .pipe(gulp.dest(outdir));
 });
 
-gulp.task("js", function() {
+gulp.task("js", function() {  
   var components = loadComponents();
-
-  // exclude languages that we won't use
-  var excludedLanguages = [];
-
-  var langs = _.pairs(components.languages)
-    .map(function(p) {
-      var obj = p[1];
-      obj.id = p[0].toLowerCase();
-      obj.deps = obj.require ? [obj.require] : [];
-      return obj;
-    })
-    .filter(function(t) {
-      return t.id != "meta" && excludedLanguages.indexOf(t.id) < 0;
-    });
-
-  // order languages by "require"
-  langs = require('obj-toposort')(langs).filter(_.identity);
+  var langs = require("./languages.json");
 
   // TODO add plugins
   var langpath = components.languages.meta.path;
@@ -93,6 +77,35 @@ gulp.task("js", function() {
       .pipe(wrapper({header: head, footer: foot}))
       .pipe(gulp.dest(outdir));
 });
+
+gulp.task("dump", function() {
+  var langs = loadLanguages();
+  var ids = langs.map(function(t){ return t.id; });
+  fs.writeFileSync("languages.json", JSON.stringify(ids, null, 2));
+});
+
+// exclude languages that we won't use
+var excludedLanguages = [];
+
+function loadLanguages() {
+  var components = loadComponents();
+
+  var langs = _.pairs(components.languages)
+    .map(function(p) {
+      var obj = p[1];
+      obj.id = p[0].toLowerCase();
+      obj.deps = obj.require ? [obj.require] : [];
+      return obj;
+    })
+    .filter(function(t) {
+      return t.id != "meta" && excludedLanguages.indexOf(t.id) < 0;
+    });
+
+  // order languages by "require"
+  langs = require('obj-toposort')(langs).filter(_.identity);
+
+  return langs;
+}
 
 function loadComponents() {
   // make prism/components.js to be a module so we could require it
