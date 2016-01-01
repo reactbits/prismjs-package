@@ -34,7 +34,12 @@ gulp.task("test", function() {
 
 gulp.task("clone", function(done) {
   if (fs.existsSync("prism")) {
-    done();
+		git.pull('origin', 'gh-pages', {
+			cwd: path.join(__dirname, 'prism'),
+		}, function(err) {
+			if (err) throw err;
+      done();
+		});
   } else {
     git.clone("https://github.com/prismjs/prism", function(err) {
       if (err) throw err;
@@ -50,7 +55,7 @@ gulp.task("css", function() {
     .pipe(gulp.dest(outdir));
 });
 
-gulp.task("js", function() {  
+gulp.task("js", function() {
   var components = loadComponents();
   var langs = require("./languages.json");
 
