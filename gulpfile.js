@@ -50,9 +50,8 @@ gulp.task("clone", function(done) {
 
 gulp.task("css", function() {
   // lets try okaidia.css
-  return gulp.src("prism/themes/prism.css")
-    .pipe(rename("prism.css"))
-    .pipe(gulp.dest(outdir));
+  return gulp.src("prism/themes/*.css")
+    .pipe(gulp.dest(path.join(outdir, 'themes')));
 });
 
 gulp.task("js", function() {
@@ -62,8 +61,8 @@ gulp.task("js", function() {
   // TODO add plugins
   var langpath = components.languages.meta.path;
   var glob = [components.core.meta.path].concat(
-      langs.map(function(t) {
-        return replace(langpath, {id: t.id}) + ".js";
+      langs.map(function(lang) {
+        return replace(langpath, {id: lang}) + ".js";
       })
   ).map(function(p) {
     return path.join("prism", p);
