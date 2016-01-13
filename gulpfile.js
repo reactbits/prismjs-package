@@ -14,7 +14,7 @@ var outdir = '.';
 
 // task to build prism package
 gulp.task("default", function() {
-  return runSequence("clone", ["css", "js"], "test");
+  return runSequence("pull", ["css", "js"], "test");
 });
 
 gulp.task("test", function() {
@@ -32,7 +32,7 @@ gulp.task("test", function() {
   console.log(s);
 });
 
-gulp.task("clone", function(done) {
+gulp.task("pull", function(done) {
   if (fs.existsSync("prism")) {
 		git.pull('origin', 'gh-pages', {
 			cwd: path.join(__dirname, 'prism'),
@@ -94,7 +94,7 @@ var excludedLanguages = [];
 function loadLanguages() {
   var components = loadComponents();
 
-  var langs = _.pairs(components.languages)
+  var langs = _.toPairs(components.languages)
     .map(function(p) {
       var obj = p[1];
       obj.id = p[0].toLowerCase();
