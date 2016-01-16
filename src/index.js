@@ -1,4 +1,4 @@
-import Prism from '../prism';
+import Prism from './prism';
 import _ from 'lodash';
 
 // language aliases
