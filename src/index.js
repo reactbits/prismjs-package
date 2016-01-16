@@ -25,10 +25,16 @@ function codeBlock(html, lang) {
 	return `<pre class="${className}"><code>${html}</code></pre>`;
 }
 
-export function highlight(code, lang) {
+const defaultOptions = {
+	wrap: true,
+};
+
+export function highlight(code, lang, options = {}) {
 	const grammar = Prism.languages[lang];
 	if (grammar) {
-		return codeBlock(Prism.highlight(code, grammar, lang));
+		const opts = { ...defaultOptions, ...options };
+		const html = Prism.highlight(code, grammar, lang);
+		return opts.wrap ? codeBlock(html, lang) : html;
 	}
 	// TODO inteligent language detection
 	return code;
