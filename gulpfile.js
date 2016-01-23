@@ -12,9 +12,9 @@ const runSequence = require('run-sequence');
 
 // replaces {id} tokens
 function replace(format, data) {
-	return format.replace(/{(\w+)}/g, function (m, name) {
-		return data[name] ? data[name] : '';
-	});
+	return format.replace(/{(\w+)}/g, (m, name) =>
+		data[name] ? data[name] : ''
+	);
 }
 
 function loadComponents() {
@@ -35,26 +35,26 @@ function loadLanguages() {
 	const components = loadComponents();
 
 	const langs = _.toPairs(components.languages)
-		.map(function (p) {
+		.map(p => {
 			const obj = p[1];
 			obj.id = p[0].toLowerCase();
 			obj.deps = obj.require ? [obj.require] : [];
 			return obj;
 		})
-		.filter(function (t) {
-			return t.id !== 'meta' && excludedLanguages.indexOf(t.id) < 0;
-		});
+		.filter(t =>
+			t.id !== 'meta' && excludedLanguages.indexOf(t.id) < 0
+		);
 
   // order languages by "require"
 	return require('obj-toposort')(langs).filter(_.identity);
 }
 
 // task to build prism package
-gulp.task('default', function () {
-	return runSequence('pull', ['css', 'js'], 'test');
-});
+gulp.task('default', () =>
+	runSequence('pull', ['css', 'js'], 'test')
+);
 
-gulp.task('test', function () {
+gulp.task('test', () => {
 	const Prism = require('./src/prism.js');
 
 	function highlight(code, lang) {
@@ -69,41 +69,37 @@ gulp.task('test', function () {
 	console.log(s);
 });
 
-gulp.task('pull', function (done) {
+gulp.task('pull', done => {
 	if (fs.existsSync('prism')) {
 		git.pull('origin', 'gh-pages', {
 			cwd: path.join(__dirname, 'prism'),
-		}, function (err) {
+		}, err => {
 			if (err) throw err;
 			done();
 		});
 	} else {
-		git.clone('https://github.com/prismjs/prism', function (err) {
+		git.clone('https://github.com/prismjs/prism', err => {
 			if (err) throw err;
 			done();
 		});
 	}
 });
 
-gulp.task('css', function () {
+gulp.task('css', () =>
 	// lets try okaidia.css
-	return gulp.src('prism/themes/*.css')
-		.pipe(gulp.dest('./themes'));
-});
+	gulp.src('prism/themes/*.css')
+		.pipe(gulp.dest('./themes'))
+);
 
-gulp.task('js', function () {
+gulp.task('js', () => {
 	const components = loadComponents();
 	const langs = require('./languages.json');
 
 	// TODO add plugins
 	const langpath = components.languages.meta.path;
 	const glob = [components.core.meta.path].concat(
-		langs.map(function (lang) {
-			return replace(langpath, { id: lang }) + '.js';
-		})
-	).map(function (p) {
-		return path.join('prism', p);
-	});
+		langs.map(lang => replace(langpath, { id: lang }) + '.js') // eslint-disable-line
+	).map(p => path.join('prism', p));
 
 	console.log(glob);
 
@@ -121,8 +117,8 @@ gulp.task('js', function () {
 		.pipe(gulp.dest('./src'));
 });
 
-gulp.task('dump', function () {
+gulp.task('dump', () => {
 	const langs = loadLanguages();
-	const ids = langs.map(function (t) { return t.id; });
+	const ids = langs.map(t => t.id);
 	fs.writeFileSync('languages.json', JSON.stringify(ids, null, 2));
 });
