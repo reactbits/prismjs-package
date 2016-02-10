@@ -43,7 +43,7 @@
     "eslint-plugin-react": "^3.16.1",
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
     "gulp-git": "^1.7.0",
     "gulp-header": "^1.7.1",
@@ -63,7 +63,7 @@
     "style-loader": "^0.13.0",
     "webpack": "^1.12.13",
     "webpack-dev-middleware": "^1.5.1",
-    "webpack-hot-middleware": "^2.6.4",
+    "webpack-hot-middleware": "^2.7.0",
     "webpack-sources": "^0.1.1"
   }
 }
