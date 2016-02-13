@@ -756,7 +756,7 @@ Prism.languages.insertBefore('javascript', 'keyword', {
 
 Prism.languages.insertBefore('javascript', 'class-name', {
 	'template-string': {
-		pattern: /`(?:\\`|\\?[^`])*`/,
+		pattern: /`(?:\\\\|\\?[^\\])*?`/,
 		inside: {
 			'interpolation': {
 				pattern: /\$\{[^}]+\}/,
@@ -5809,7 +5809,7 @@ Prism.languages.basic = {
 				inside: insideString
 			},
 			{
-				pattern: /("|')(?:\\?[\s\S])*?\1/g,
+				pattern: /(["'])(?:\\\\|\\?[^\\])*?\1/g,
 				inside: insideString
 			}
 		],
