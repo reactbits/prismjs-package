@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; // eslint-disable-line
 // TODO remove when prism will support bower packaging (there are discussions on github)
 const _ = require('lodash');
 const fs = require('fs');
