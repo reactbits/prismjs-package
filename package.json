@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/sergeyt/prismjs-package",
   "dependencies": {
-    "lodash": "^4.5.1"
+    "lodash": "^4.6.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
