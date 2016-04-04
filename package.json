@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/sergeyt/prismjs-package",
   "dependencies": {
-    "lodash": "^4.7.0"
+    "lodash": "^4.8.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
