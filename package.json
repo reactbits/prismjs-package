@@ -35,7 +35,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^2.2.3",
     "obj-toposort": "^2.0.0",
-    "react": "^0.14.8",
+    "react": "^15.0.0",
     "react-bootstrap": "^0.28.5",
     "react-devpack": "^0.1.12",
     "react-dom": "^0.14.8",
