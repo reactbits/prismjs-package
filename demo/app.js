@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import highlight from '../src';
-import qwest from 'qwest';
+import fetch from 'isomorphic-fetch';
 
 const contentLinks = [
 	{
@@ -14,13 +14,15 @@ export default class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { content: '' };
-		this.load(contentLinks[0].url);
+		this.load(contentLinks[0]);
 	}
 
-	load(url) {
-		qwest.get(url).then((xhr, content) => {
-			this.setState({ content });
-		});
+	load(item) {
+		fetch(item.url, item.options || {})
+			.then(res => res.text())
+			.then(content => {
+				this.setState({ content });
+			});
 	}
 
 	render() {
