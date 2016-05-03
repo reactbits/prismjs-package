@@ -206,7 +206,9 @@ var _ = _self.Prism = {
 			code: code
 		};
 
-		if (!code || !grammar) {
+		_.hooks.run('before-sanity-check', env);
+
+		if (!env.code || !env.grammar) {
 			_.hooks.run('complete', env);
 			return;
 		}
@@ -2675,6 +2677,20 @@ Prism.languages.python= {
 	Prism.languages.puppet['heredoc'][0].inside.interpolation = interpolation;
 	Prism.languages.puppet['string'].inside['double-quoted'].inside.interpolation = interpolation;
 }(Prism));
+
+/* **********************************************
+     Begin prism-protobuf.js
+********************************************** */
+
+Prism.languages.protobuf = Prism.languages.extend('clike', {
+	keyword: /\b(package|import|message|enum)\b/,
+	builtin: /\b(required|repeated|optional|reserved)\b/,
+	primitive: {
+		pattern: /\b(double|float|int32|int64|uint32|uint64|sint32|sint64|fixed32|fixed64|sfixed32|sfixed64|bool|string|bytes)\b/,
+		alias: 'symbol'
+	}
+});
+
 
 /* **********************************************
      Begin prism-prolog.js
