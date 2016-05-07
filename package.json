@@ -29,7 +29,7 @@
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
     "gulp-git": "^1.7.1",
-    "gulp-header": "^1.7.1",
+    "gulp-header": "^1.8.2",
     "gulp-rename": "^1.2.2",
     "gulp-wrapper": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
@@ -37,7 +37,7 @@
     "obj-toposort": "^2.0.0",
     "react": "^15.0.2",
     "react-bootstrap": "^0.29.3",
-    "react-devpack": "^0.1.25",
+    "react-devpack": "^0.1.26",
     "react-dom": "^15.0.2",
     "run-sequence": "^1.1.5"
   }
