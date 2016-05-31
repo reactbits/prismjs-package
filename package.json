@@ -37,8 +37,8 @@
     "obj-toposort": "^2.0.0",
     "react": "^15.1.0",
     "react-bootstrap": "^0.29.4",
-    "react-devpack": "^0.1.32",
+    "react-devpack": "^0.1.33",
     "react-dom": "^15.1.0",
-    "run-sequence": "^1.2.0"
+    "run-sequence": "^1.2.1"
   }
 }
