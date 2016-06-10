@@ -484,7 +484,12 @@ if (script) {
 	_.filename = script.src;
 
 	if (document.addEventListener && !script.hasAttribute('data-manual')) {
-		document.addEventListener('DOMContentLoaded', _.highlightAll);
+		if(document.readyState !== "loading") {
+			requestAnimationFrame(_.highlightAll, 0);
+		}
+		else {
+			document.addEventListener('DOMContentLoaded', _.highlightAll);
+		}
 	}
 }
 
@@ -811,7 +816,7 @@ Prism.languages.insertBefore('javascript', 'keyword', {
 	}
 });
 
-Prism.languages.insertBefore('javascript', 'class-name', {
+Prism.languages.insertBefore('javascript', 'string', {
 	'template-string': {
 		pattern: /`(?:\\\\|\\?[^\\])*?`/,
 		greedy: true,
@@ -5634,6 +5639,8 @@ Prism.languages.insertBefore('coffeescript', 'keyword', {
 	// Object property
 	'property': /(?!\d)\w+(?=\s*:(?!:))/
 });
+
+delete Prism.languages.coffeescript['template-string'];
 
 }(Prism));
 
