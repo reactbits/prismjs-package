@@ -28,17 +28,17 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
-    "gulp-git": "^1.7.2",
-    "gulp-header": "^1.8.3",
+    "gulp-git": "^1.8.0",
+    "gulp-header": "^1.8.7",
     "gulp-rename": "^1.2.2",
     "gulp-wrapper": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.0.0",
     "obj-toposort": "^2.0.0",
-    "react": "^15.1.0",
+    "react": "^15.2.0",
     "react-bootstrap": "^0.29.5",
-    "react-devpack": "^0.1.37",
-    "react-dom": "^15.1.0",
-    "run-sequence": "^1.2.1"
+    "react-devpack": "^0.1.41",
+    "react-dom": "^15.2.0",
+    "run-sequence": "^1.2.2"
   }
 }
