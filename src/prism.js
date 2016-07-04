@@ -490,7 +490,11 @@ if (script) {
 
 	if (document.addEventListener && !script.hasAttribute('data-manual')) {
 		if(document.readyState !== "loading") {
-			requestAnimationFrame(_.highlightAll, 0);
+			if (window.requestAnimationFrame) {
+				window.requestAnimationFrame(_.highlightAll);
+			} else {
+				window.setTimeout(_.highlightAll, 16);
+			}
 		}
 		else {
 			document.addEventListener('DOMContentLoaded', _.highlightAll);
@@ -572,7 +576,7 @@ Prism.languages.markup = {
 	'doctype': /<!DOCTYPE[\w\W]+?>/,
 	'cdata': /<!\[CDATA\[[\w\W]*?]]>/i,
 	'tag': {
-		pattern: /<\/?(?!\d)[^\s>\/=.$<]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\\1|\\?(?!\1)[\w\W])*\1|[^\s'">=]+))?)*\s*\/?>/i,
+		pattern: /<\/?(?!\d)[^\s>\/=$<]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\\1|\\?(?!\1)[\w\W])*\1|[^\s'">=]+))?)*\s*\/?>/i,
 		inside: {
 			'tag': {
 				pattern: /^<\/?[^\s>\/]+/i,
@@ -810,7 +814,8 @@ Prism.languages.javascript = Prism.languages.extend('clike', {
 	'keyword': /\b(as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|var|void|while|with|yield)\b/,
 	'number': /\b-?(0x[\dA-Fa-f]+|0b[01]+|0o[0-7]+|\d*\.?\d+([Ee][+-]?\d+)?|NaN|Infinity)\b/,
 	// Allow for all non-ASCII characters (See http://stackoverflow.com/a/2008444)
-	'function': /[_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*(?=\()/i
+	'function': /[_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*(?=\()/i,
+	'operator': /--?|\+\+?|!=?=?|<=?|>=?|==?=?|&&?|\|\|?|\?|\*\*?|\/|~|\^|%|\.{3}/
 });
 
 Prism.languages.insertBefore('javascript', 'keyword', {
@@ -1156,6 +1161,9 @@ Prism.languages.twig = {
 		'acronym': Prism.util.clone(Prism.languages.textile['phrase'].inside['acronym']),
 		'mark': Prism.util.clone(Prism.languages.textile['phrase'].inside['mark'])
 	};
+
+	// Only allow alpha-numeric HTML tags, not XML tags
+	Prism.languages.textile.tag.pattern = /<\/?(?!\d)[a-z0-9]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\\1|\\?(?!\1)[\w\W])*\1|[^\s'">=]+))?)*\s*\/?>/i;
 
 	// Allow some nesting
 	Prism.languages.textile['phrase'].inside['inline'].inside['bold'].inside = nestedPatterns;
@@ -6703,6 +6711,30 @@ Prism.languages.apacheconf = {
 	'regex': /\^?.*\$|\^.*\$?/
 };
 
+
+/* **********************************************
+     Begin prism-ada.js
+********************************************** */
+
+Prism.languages.ada = {
+	'comment': /--.*/,
+	'string': /"(?:""|[^"\r\f\n])*"/i,
+	'number': [
+		{
+			pattern: /\b[0-9](?:_?[0-9])*#[0-9A-F](?:_?[0-9A-F])*(?:\.[0-9A-F](?:_?[0-9A-F])*)?#(?:E[+-]?[0-9](?:_?[0-9])*)?/i
+		},
+		{
+			pattern: /\b[0-9](?:_?[0-9])*(?:\.[0-9](?:_?[0-9])*)?(?:E[+-]?[0-9](?:_?[0-9])*)?\b/i
+		}
+	],
+	'attr-name': /\b'\w+/i,
+	'keyword': /\b(?:abort|abs|abstract|accept|access|aliased|all|and|array|at|begin|body|case|constant|declare|delay|delta|digits|do|else|new|return|elsif|end|entry|exception|exit|for|function|generic|goto|if|in|interface|is|limited|loop|mod|not|null|of|others|out|overriding|package|pragma|private|procedure|protected|raise|range|record|rem|renames|requeue|reverse|select|separate|some|subtype|synchronized|tagged|task|terminate|then|type|until|use|when|while|with|xor)\b/i,
+	'boolean': /\b(?:true|false)\b/i,
+	'operator': /<[=>]?|>=?|=>?|:=|\/=?|\*\*?|[&+-]/,
+	'punctuation': /\.\.?|[,;():]/,
+	'char': /'.'/,
+	'variable': /\b[a-z](?:[_a-z\d])*\b/i
+};
 
 /* **********************************************
      Begin prism-actionscript.js
