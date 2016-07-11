@@ -567,6 +567,31 @@ Prism.languages.yaml = {
 
 
 /* **********************************************
+     Begin prism-xojo.js
+********************************************** */
+
+Prism.languages.xojo = {
+	'comment': {
+		pattern: /(?:'|\/\/|Rem\b).+/i,
+		inside: {
+			'keyword': /^Rem/i
+		}
+	},
+	'string': {
+		pattern: /"(?:""|[^"])*"/,
+		greedy: true
+	},
+	'number': [
+		/(?:\b|\B[.-])(?:\d+\.?\d*)(?:E[+-]?\d+)?/i,
+		/&[bchou][a-z\d]+/i
+	],
+	'symbol': /#(?:If|Else|ElseIf|Endif|Pragma)\b/i,
+	'keyword': /\b(?:AddHandler|App|Array|As(?:signs)?|By(?:Ref|Val)|Break|Call|Case|Catch|Const|Continue|CurrentMethodName|Declare|Dim|Do(?:wnTo)?|Each|Else(?:If)?|End|Exit|Extends|False|Finally|For|Global|If|In|Lib|Loop|Me|Next|Nil|Optional|ParamArray|Raise(?:Event)?|ReDim|Rem|RemoveHandler|Return|Select|Self|Soft|Static|Step|Super|Then|To|True|Try|Ubound|Until|Using|Wend|While)\b/i,
+	'operator': /<[=>]?|>=?|[+\-*\/\\^=]|\b(?:AddressOf|And|Ctype|IsA?|Mod|New|Not|Or|Xor|WeakAddressOf)\b/i,
+	'punctuation': /[.,;:()]/
+};
+
+/* **********************************************
      Begin prism-markup.js
 ********************************************** */
 
@@ -1717,7 +1742,12 @@ Prism.languages.scss = Prism.languages.extend('css', {
 		// Initial look-ahead is used to prevent matching of blank selectors
 		pattern: /(?=\S)[^@;\{\}\(\)]?([^@;\{\}\(\)]|&|#\{\$[-_\w]+\})+(?=\s*\{(\}|\s|[^\}]+(:|\{)[^\}]+))/m,
 		inside: {
-			'placeholder': /%[-_\w]+/
+			'parent': {
+				pattern: /&/,
+				alias: 'important'
+			},
+			'placeholder': /%[-_\w]+/,
+			'variable': /\$[-_\w]+|#\{\$[-_\w]+\}/
 		}
 	}
 });
@@ -1732,7 +1762,14 @@ Prism.languages.insertBefore('scss', 'atrule', {
 	]
 });
 
-Prism.languages.insertBefore('scss', 'property', {
+Prism.languages.scss.property = {
+	pattern: /(?:[\w-]|\$[-_\w]+|#\{\$[-_\w]+\})+(?=\s*:)/i,
+	inside: {
+		'variable': /\$[-_\w]+|#\{\$[-_\w]+\}/
+	}
+};
+
+Prism.languages.insertBefore('scss', 'important', {
 	// var and interpolated vars
 	'variable': /\$[-_\w]+|#\{\$[-_\w]+\}/
 });
@@ -1742,7 +1779,10 @@ Prism.languages.insertBefore('scss', 'function', {
 		pattern: /%[-_\w]+/,
 		alias: 'selector'
 	},
-	'statement': /\B!(?:default|optional)\b/i,
+	'statement': {
+		pattern: /\B!(?:default|optional)\b/i,
+		alias: 'keyword'
+	},
 	'boolean': /\b(?:true|false)\b/,
 	'null': /\bnull\b/,
 	'operator': {
@@ -2849,7 +2889,8 @@ Prism.languages.php = Prism.languages.extend('clike', {
 	'constant': /\b[A-Z0-9_]{2,}\b/,
 	'comment': {
 		pattern: /(^|[^\\])(?:\/\*[\w\W]*?\*\/|\/\/.*)/,
-		lookbehind: true
+		lookbehind: true,
+		greedy: true
 	}
 });
 
@@ -5659,7 +5700,8 @@ Prism.languages.css.selector = {
 		'pseudo-element': /:(?:after|before|first-letter|first-line|selection)|::[-\w]+/,
 		'pseudo-class': /:[-\w]+(?:\(.*\))?/,
 		'class': /\.[-:\.\w]+/,
-		'id': /#[-:\.\w]+/
+		'id': /#[-:\.\w]+/,
+		'attribute': /\[[^\]]+\]/
 	}
 };
 
