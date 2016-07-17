@@ -457,7 +457,7 @@ Token.stringify = function(o, language, parent) {
 		attributes += (attributes ? ' ' : '') + name + '="' + (env.attributes[name] || '') + '"';
 	}
 
-	return '<' + env.tag + ' class="' + env.classes.join(' ') + '" ' + attributes + '>' + env.content + '</' + env.tag + '>';
+	return '<' + env.tag + ' class="' + env.classes.join(' ') + '"' + (attributes ? ' ' + attributes : '') + '>' + env.content + '</' + env.tag + '>';
 
 };
 
@@ -1502,7 +1502,6 @@ Prism.languages.sql= {
 
 		env.tokenStack = [];
 
-		env.backupCode = env.code;
 		env.code = env.code.replace(smarty_pattern, function(match) {
 
 			// Smarty tags inside {literal} block are ignored
@@ -1520,14 +1519,6 @@ Prism.languages.sql= {
 			}
 			return match;
 		});
-	});
-
-	// Restore env.code for other plugins (e.g. line-numbers)
-	Prism.hooks.add('before-insert', function(env) {
-		if (env.language === 'smarty') {
-			env.code = env.backupCode;
-			delete env.backupCode;
-		}
 	});
 
 	// Re-insert the tokens after highlighting
@@ -2936,20 +2927,11 @@ if (Prism.languages.markup) {
 
 		env.tokenStack = [];
 
-		env.backupCode = env.code;
 		env.code = env.code.replace(/(?:<\?php|<\?)[\w\W]*?(?:\?>)/ig, function(match) {
 			env.tokenStack.push(match);
 
 			return '{{{PHP' + env.tokenStack.length + '}}}';
 		});
-	});
-
-	// Restore env.code for other plugins (e.g. line-numbers)
-	Prism.hooks.add('before-insert', function(env) {
-		if (env.language === 'php') {
-			env.code = env.backupCode;
-			delete env.backupCode;
-		}
 	});
 
 	// Re-insert the tokens after highlighting
@@ -4818,20 +4800,11 @@ Prism.languages.haskell= {
 
 		env.tokenStack = [];
 
-		env.backupCode = env.code;
 		env.code = env.code.replace(handlebars_pattern, function(match) {
 			env.tokenStack.push(match);
 
 			return '___HANDLEBARS' + env.tokenStack.length + '___';
 		});
-	});
-
-	// Restore env.code for other plugins (e.g. line-numbers)
-	Prism.hooks.add('before-insert', function(env) {
-		if (env.language === 'handlebars') {
-			env.code = env.backupCode;
-			delete env.backupCode;
-		}
 	});
 
 	// Re-insert the tokens after highlighting
@@ -5025,7 +4998,7 @@ Prism.languages.groovy = Prism.languages.extend('clike', {
 		{
 			pattern: /("|'|\/)(?:\\?.)*?\1/,
 			greedy: true
-		},
+		}
 	],
 	'number': /\b(?:0b[01_]+|0x[\da-f_]+(?:\.[\da-f_p\-]+)?|[\d_]+(?:\.[\d_]+)?(?:e[+-]?[\d]+)?)[glidf]?\b/i,
 	'operator': {
@@ -5065,7 +5038,7 @@ Prism.hooks.add('wrap', function(env) {
 				pattern = /([^\$])(\$(\{.*?\}|[\w\.]+))/;
 			}
 
-			// To prevent double HTML-ecoding we have to decode env.content first
+			// To prevent double HTML-encoding we have to decode env.content first
 			env.content = env.content.replace(/&amp;/g, '&').replace(/&lt;/g, '<');
 
 			env.content = Prism.highlight(env.content, {
