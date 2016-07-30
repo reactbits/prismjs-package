@@ -23,22 +23,22 @@
   },
   "homepage": "https://github.com/sergeyt/prismjs-package",
   "dependencies": {
-    "lodash": "^4.13.1"
+    "lodash": "^4.14.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
-    "gulp-git": "^1.8.0",
+    "gulp-git": "^1.10.0",
     "gulp-header": "^1.8.7",
     "gulp-rename": "^1.2.2",
     "gulp-wrapper": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.1.0",
     "obj-toposort": "^2.0.0",
-    "react": "^15.2.1",
-    "react-bootstrap": "^0.29.5",
-    "react-devpack": "^0.1.43",
-    "react-dom": "^15.2.1",
+    "react": "^15.3.0",
+    "react-bootstrap": "^0.30.0",
+    "react-devpack": "^0.1.48",
+    "react-dom": "^15.3.0",
     "run-sequence": "^1.2.2"
   }
 }
