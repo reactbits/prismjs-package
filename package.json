@@ -28,7 +28,7 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
-    "gulp-git": "^1.10.0",
+    "gulp-git": "^1.11.0",
     "gulp-header": "^1.8.7",
     "gulp-rename": "^1.2.2",
     "gulp-wrapper": "^1.0.0",
@@ -36,8 +36,8 @@
     "jquery": "^3.1.0",
     "obj-toposort": "^2.0.0",
     "react": "^15.3.0",
-    "react-bootstrap": "^0.30.0",
-    "react-devpack": "^0.1.48",
+    "react-bootstrap": "^0.30.1",
+    "react-devpack": "^0.1.49",
     "react-dom": "^15.3.0",
     "run-sequence": "^1.2.2"
   }
