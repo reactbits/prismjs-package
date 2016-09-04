@@ -1502,6 +1502,7 @@ Prism.languages.sql= {
 
 		env.tokenStack = [];
 
+		env.backupCode = env.code;
 		env.code = env.code.replace(smarty_pattern, function(match) {
 
 			// Smarty tags inside {literal} block are ignored
@@ -1519,6 +1520,14 @@ Prism.languages.sql= {
 			}
 			return match;
 		});
+	});
+
+	// Restore env.code for other plugins (e.g. line-numbers)
+	Prism.hooks.add('before-insert', function(env) {
+		if (env.language === 'smarty') {
+			env.code = env.backupCode;
+			delete env.backupCode;
+		}
 	});
 
 	// Re-insert the tokens after highlighting
@@ -2930,11 +2939,20 @@ if (Prism.languages.markup) {
 
 		env.tokenStack = [];
 
+		env.backupCode = env.code;
 		env.code = env.code.replace(/(?:<\?php|<\?)[\w\W]*?(?:\?>)/ig, function(match) {
 			env.tokenStack.push(match);
 
 			return '{{{PHP' + env.tokenStack.length + '}}}';
 		});
+	});
+
+	// Restore env.code for other plugins (e.g. line-numbers)
+	Prism.hooks.add('before-insert', function(env) {
+		if (env.language === 'php') {
+			env.code = env.backupCode;
+			delete env.backupCode;
+		}
 	});
 
 	// Re-insert the tokens after highlighting
@@ -4803,11 +4821,20 @@ Prism.languages.haskell= {
 
 		env.tokenStack = [];
 
+		env.backupCode = env.code;
 		env.code = env.code.replace(handlebars_pattern, function(match) {
 			env.tokenStack.push(match);
 
 			return '___HANDLEBARS' + env.tokenStack.length + '___';
 		});
+	});
+
+	// Restore env.code for other plugins (e.g. line-numbers)
+	Prism.hooks.add('before-insert', function(env) {
+		if (env.language === 'handlebars') {
+			env.code = env.backupCode;
+			delete env.backupCode;
+		}
 	});
 
 	// Re-insert the tokens after highlighting
@@ -6375,7 +6402,7 @@ Prism.languages.insertBefore('aspnet', Prism.languages.javascript ? 'script' : '
 	};
 	Prism.languages.asciidoc = {
 		'comment-block': {
-			pattern: /^(\/{4,})(?:\r?\n|\r)(?:.*(?:\r?\n|\r))*?\1/m,
+			pattern: /^(\/{4,})(?:\r?\n|\r)(?:[\s\S]*(?:\r?\n|\r))??\1/m,
 			alias: 'comment'
 		},
 		'table': {
@@ -6394,7 +6421,7 @@ Prism.languages.insertBefore('aspnet', Prism.languages.javascript ? 'script' : '
 		},
 
 		'passthrough-block': {
-			pattern: /^(\+{4,})(?:\r?\n|\r)(?:.*(?:\r?\n|\r))*?\1$/m,
+			pattern: /^(\+{4,})(?:\r?\n|\r)(?:[\s\S]*(?:\r?\n|\r))??\1$/m,
 			inside: {
 				'punctuation': /^\++|\++$/
 				// See rest below
@@ -6402,7 +6429,7 @@ Prism.languages.insertBefore('aspnet', Prism.languages.javascript ? 'script' : '
 		},
 		// Literal blocks and listing blocks
 		'literal-block': {
-			pattern: /^(-{4,}|\.{4,})(?:\r?\n|\r)(?:.*(?:\r?\n|\r))*?\1$/m,
+			pattern: /^(-{4,}|\.{4,})(?:\r?\n|\r)(?:[\s\S]*(?:\r?\n|\r))??\1$/m,
 			inside: {
 				'punctuation': /^(?:-+|\.+)|(?:-+|\.+)$/
 				// See rest below
@@ -6410,7 +6437,7 @@ Prism.languages.insertBefore('aspnet', Prism.languages.javascript ? 'script' : '
 		},
 		// Sidebar blocks, quote blocks, example blocks and open blocks
 		'other-block': {
-			pattern: /^(--|\*{4,}|_{4,}|={4,})(?:\r?\n|\r)(?:.*(?:\r?\n|\r))*?\1$/m,
+			pattern: /^(--|\*{4,}|_{4,}|={4,})(?:\r?\n|\r)(?:[\s\S]*(?:\r?\n|\r))??\1$/m,
 			inside: {
 				'punctuation': /^(?:-+|\*+|_+|=+)|(?:-+|\*+|_+|=+)$/
 				// See rest below
