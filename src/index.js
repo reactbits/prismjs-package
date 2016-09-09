@@ -1,5 +1,5 @@
-import Prism from './prism';
 import _ from 'lodash';
+import Prism from './prism';
 
 // language aliases
 const aliases = {
@@ -29,7 +29,7 @@ const defaultOptions = {
 	wrap: true,
 };
 
-export function highlight(code, lang, options = {}) {
+export default function highlight(code, lang, options = {}) {
 	const grammar = Prism.languages[lang];
 	if (grammar) {
 		const opts = { ...defaultOptions, ...options };
@@ -39,5 +39,3 @@ export function highlight(code, lang, options = {}) {
 	// TODO inteligent language detection
 	return code;
 }
-
-export default highlight;

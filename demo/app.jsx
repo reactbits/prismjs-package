@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
-import highlight from '../src';
 import fetch from 'isomorphic-fetch';
+import highlight from '../src';
 
 const contentLinks = [
 	{

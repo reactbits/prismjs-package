@@ -9,12 +9,11 @@ const git = require('gulp-git');
 const header = require('gulp-header');
 const wrapper = require('gulp-wrapper');
 const runSequence = require('run-sequence');
+const toposort = require('obj-toposort');
 
 // replaces {id} tokens
 function replace(format, data) {
-	return format.replace(/{(\w+)}/g, (m, name) =>
-		data[name] ? data[name] : ''
-	);
+	return format.replace(/{(\w+)}/g, (m, name) => (data[name] ? data[name] : ''));
 }
 
 function loadComponents() {
@@ -23,7 +22,7 @@ function loadComponents() {
 	src += '\nmodule.exports = components;\n';
 	const out = './prism-components.js';
 	fs.writeFileSync(out, src, 'utf8');
-	const data = require(out);
+	const data = require(out); // eslint-disable-line
 	fs.unlinkSync(out);
 	return data;
 }
@@ -46,7 +45,7 @@ function loadLanguages() {
 		);
 
   // order languages by "require"
-	return require('obj-toposort')(langs).filter(_.identity);
+	return toposort(langs).filter(_.identity);
 }
 
 // task to build prism package
@@ -55,7 +54,7 @@ gulp.task('default', () =>
 );
 
 gulp.task('test', () => {
-	const Prism = require('./src/prism.js');
+	const Prism = require('./src/prism.js'); // eslint-disable-line
 
 	function highlight(code, lang) {
 		const g = Prism.languages[lang];
@@ -93,7 +92,7 @@ gulp.task('css', () =>
 
 gulp.task('js', () => {
 	const components = loadComponents();
-	const langs = require('./languages.json');
+	const langs = require('./languages.json'); // eslint-disable-line
 
 	// TODO add plugins
 	const langpath = components.languages.meta.path;
