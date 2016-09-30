@@ -2039,7 +2039,7 @@ Prism.languages.rust = {
 	});
 
 	Prism.languages.insertBefore('ruby', 'number', {
-		'builtin': /\b(Array|Bignum|Binding|Class|Continuation|Dir|Exception|FalseClass|File|Stat|File|Fixnum|Fload|Hash|Integer|IO|MatchData|Method|Module|NilClass|Numeric|Object|Proc|Range|Regexp|String|Struct|TMS|Symbol|ThreadGroup|Thread|Time|TrueClass)\b/,
+		'builtin': /\b(Array|Bignum|Binding|Class|Continuation|Dir|Exception|FalseClass|File|Stat|File|Fixnum|Float|Hash|Integer|IO|MatchData|Method|Module|NilClass|Numeric|Object|Proc|Range|Regexp|String|Struct|TMS|Symbol|ThreadGroup|Thread|Time|TrueClass)\b/,
 		'constant': /\b[A-Z][a-zA-Z_0-9]*(?:[?!]|\b)/
 	});
 
@@ -4278,13 +4278,13 @@ Prism.languages.julia= {
 ********************************************** */
 
 Prism.languages.json = {
-    'property': /".*?"(?=\s*:)/ig,
-    'string': /"(?!:)(\\?[^"])*?"(?!:)/g,
-    'number': /\b-?(0x[\dA-Fa-f]+|\d*\.?\d+([Ee]-?\d+)?)\b/g,
+    'property': /"(?:\\.|[^|"])*"(?=\s*:)/ig,
+    'string': /"(?!:)(?:\\.|[^|"])*"(?!:)/g,
+    'number': /\b-?(0x[\dA-Fa-f]+|\d*\.?\d+([Ee][+-]?\d+)?)\b/g,
     'punctuation': /[{}[\]);,]/g,
     'operator': /:/g,
     'boolean': /\b(true|false)\b/gi,
-    'null': /\bnull\b/gi,
+    'null': /\bnull\b/gi
 };
 
 Prism.languages.jsonp = Prism.languages.json;
@@ -6684,7 +6684,7 @@ Prism.languages.apl = {
 		alias: 'function'
 	},
 	'constant': /[⍬⌾#⎕⍞]/,
-	'function': /[-+×÷⌈⌊∣|⍳?*⍟○!⌹<≤=>≥≠≡≢∊⍷∪∩~∨∧⍱⍲⍴,⍪⌽⊖⍉↑↓⊂⊃⌷⍋⍒⊤⊥⍕⍎⊣⊢⍁⍂≈⍯↗¤→]/,
+	'function': /[-+×÷⌈⌊∣|⍳⍸?*⍟○!⌹<≤=>≥≠≡≢∊⍷∪∩~∨∧⍱⍲⍴,⍪⌽⊖⍉↑↓⊂⊃⌷⍋⍒⊤⊥⍕⍎⊣⊢⍁⍂≈⍯↗¤→]/,
 	'monadic-operator': {
 		pattern: /[\\\/⌿⍀¨⍨⌶&∥]/,
 		alias: 'operator'
@@ -6703,6 +6703,7 @@ Prism.languages.apl = {
 		alias: 'builtin'
 	}
 };
+
 
 /* **********************************************
      Begin prism-apacheconf.js
