@@ -451,11 +451,9 @@ Token.stringify = function(o, language, parent) {
 
 	_.hooks.run('wrap', env);
 
-	var attributes = '';
-
-	for (var name in env.attributes) {
-		attributes += (attributes ? ' ' : '') + name + '="' + (env.attributes[name] || '') + '"';
-	}
+	var attributes = Object.keys(env.attributes).map(function(name) {
+		return name + '="' + (env.attributes[name] || '').replace(/"/g, '&quot;') + '"';
+	}).join(' ');
 
 	return '<' + env.tag + ' class="' + env.classes.join(' ') + '"' + (attributes ? ' ' + attributes : '') + '>' + env.content + '</' + env.tag + '>';
 
@@ -889,9 +887,10 @@ Prism.languages.js = Prism.languages.javascript;
 ********************************************** */
 
 Prism.languages.typescript = Prism.languages.extend('javascript', {
-	'keyword': /\b(break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|false|finally|for|function|get|if|implements|import|in|instanceof|interface|let|new|null|package|private|protected|public|return|set|static|super|switch|this|throw|true|try|typeof|var|void|while|with|yield|module|declare|constructor|string|Function|any|number|boolean|Array|enum)\b/
+	'keyword': /\b(break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|false|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|package|private|protected|public|return|set|static|super|switch|this|throw|true|try|typeof|var|void|while|with|yield|module|declare|constructor|string|Function|any|number|boolean|Array|enum)\b/
 });
 
+Prism.languages.ts = Prism.languages.typescript;
 
 /* **********************************************
      Begin prism-twig.js
@@ -2046,12 +2045,14 @@ Prism.languages.rust = {
 	Prism.languages.ruby.string = [
 		{
 			pattern: /%[qQiIwWxs]?([^a-zA-Z0-9\s\{\(\[<])(?:[^\\]|\\[\s\S])*?\1/,
+			greedy: true,
 			inside: {
 				'interpolation': interpolation
 			}
 		},
 		{
 			pattern: /%[qQiIwWxs]?\((?:[^()\\]|\\[\s\S])*\)/,
+			greedy: true,
 			inside: {
 				'interpolation': interpolation
 			}
@@ -2059,24 +2060,28 @@ Prism.languages.rust = {
 		{
 			// Here we need to specifically allow interpolation
 			pattern: /%[qQiIwWxs]?\{(?:[^#{}\\]|#(?:\{[^}]+\})?|\\[\s\S])*\}/,
+			greedy: true,
 			inside: {
 				'interpolation': interpolation
 			}
 		},
 		{
 			pattern: /%[qQiIwWxs]?\[(?:[^\[\]\\]|\\[\s\S])*\]/,
+			greedy: true,
 			inside: {
 				'interpolation': interpolation
 			}
 		},
 		{
 			pattern: /%[qQiIwWxs]?<(?:[^<>\\]|\\[\s\S])*>/,
+			greedy: true,
 			inside: {
 				'interpolation': interpolation
 			}
 		},
 		{
 			pattern: /("|')(#\{[^}]+\}|\\(?:\r?\n|\r)|\\?.)*?\1/,
+			greedy: true,
 			inside: {
 				'interpolation': interpolation
 			}
@@ -2359,6 +2364,43 @@ Prism.languages.rest = {
 		lookbehind: true
 	}
 };
+
+/* **********************************************
+     Begin prism-reason.js
+********************************************** */
+
+Prism.languages.reason = Prism.languages.extend('clike', {
+	'comment': {
+		pattern: /(^|[^\\])\/\*[\w\W]*?\*\//,
+		lookbehind: true
+	},
+	'string': {
+		pattern: /"(\\(?:\r\n|[\s\S])|[^\\\r\n"])*"/,
+		greedy: true
+	},
+	// 'class-name' must be matched *after* 'constructor' defined below
+	'class-name': /\b[A-Z]\w*/,
+	'keyword': /\b(?:and|as|assert|begin|class|constraint|do|done|downto|else|end|exception|external|for|fun|function|functor|if|in|include|inherit|initializer|lazy|let|method|module|mutable|new|nonrec|object|of|open|or|private|rec|sig|struct|switch|then|to|try|type|val|virtual|when|while|with)\b/,
+	'operator': /\.{3}|:[:=]|=(?:==?|>)?|<=?|>=?|[|^?'#!~`]|[+\-*\/]\.?|\b(?:mod|land|lor|lxor|lsl|lsr|asr)\b/
+});
+Prism.languages.insertBefore('reason', 'class-name', {
+	'character': {
+		pattern: /'(?:\\x[\da-f]{2}|\\o[0-3][0-7][0-7]|\\\d{3}|\\.|[^'])'/,
+		alias: 'string'
+	},
+	'constructor': {
+		// Negative look-ahead prevents from matching things like String.capitalize
+		pattern: /\b[A-Z]\w*\b(?!\s*\.)/,
+		alias: 'variable'
+	},
+	'label': {
+		pattern: /\b[a-z]\w*(?=::)/,
+		alias: 'symbol'
+	}
+});
+
+// We can't match functions property, so let's not even try.
+delete Prism.languages.reason.function;
 
 /* **********************************************
      Begin prism-jsx.js
@@ -4298,6 +4340,67 @@ Prism.languages.jsonp = Prism.languages.json;
 
 
 /* **********************************************
+     Begin prism-jolie.js
+********************************************** */
+
+Prism.languages.jolie = Prism.languages.extend('clike', {
+	'keyword': /\b(?:include|define|is_defined|undef|main|init|outputPort|inputPort|Location|Protocol|Interfaces|RequestResponse|OneWay|type|interface|extender|throws|cset|csets|forward|Aggregates|Redirects|embedded|courier|extender|execution|sequential|concurrent|single|scope|install|throw|comp|cH|default|global|linkIn|linkOut|synchronized|this|new|for|if|else|while|in|Jolie|Java|Javascript|nullProcess|spawn|constants|with|provide|until|exit|foreach|instanceof|over|service)\b/g,
+	'builtin': /\b(?:undefined|string|int|void|long|Byte|bool|double|float|char|any)\b/,
+	'number': /\b\d*\.?\d+(?:e[+-]?\d+)?l?\b/i,
+	'operator': /->|<<|[!+-<>=*]?=|[:<>!?*\/%^]|&&|\|\||--?|\+\+?/g,
+	'symbol': /[|;@]/,
+	'punctuation': /[,.]/,
+	'string': {
+		pattern: /(["'])(\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
+		greedy: true
+	},
+});
+
+delete Prism.languages.jolie['class-name'];
+delete Prism.languages.jolie['function'];
+
+Prism.languages.insertBefore( 'jolie', 'keyword', {
+	'function':
+	{
+		pattern: /((?:\b(?:outputPort|inputPort|in|service|courier)\b|@)\s*)\w+/,
+		lookbehind: true
+	},
+	'aggregates': {
+		pattern: /(\bAggregates\s*:\s*)(?:\w+(?:\s+with\s+\w+)?\s*,\s*)*\w+(?:\s+with\s+\w+)?/,
+		lookbehind: true,
+		inside: {
+			'withExtension': {
+				pattern: /\bwith\s+\w+/,
+				inside: {
+					'keyword' : /\bwith\b/
+				}
+			},
+			'function': {
+				pattern: /\w+/
+			},
+			'punctuation': {
+				pattern: /,/
+			}
+		}
+	},
+	'redirects': {
+		pattern: /(\bRedirects\s*:\s*)(?:\w+\s*=>\s*\w+\s*,\s*)*(?:\w+\s*=>\s*\w+)/,
+		lookbehind: true,
+		inside: {
+			'punctuation': {
+				pattern: /,/
+			},
+			'function': {
+				pattern: /\w+/g
+			},
+			'symbol': {
+				pattern: /=>/g
+			}
+		}
+	}
+});
+
+/* **********************************************
      Begin prism-jade.js
 ********************************************** */
 
@@ -4533,7 +4636,7 @@ Prism.languages.j = {
 
 Prism.languages.ini= {
 	'comment': /^[ \t]*;.*$/m,
-	'important': /\[.*?\]/,
+	'selector': /^[ \t]*\[.*?\]/m,
 	'constant': /^[ \t]*[^\s=]+?(?=[ \t]*=)/m,
 	'attr-value': {
 		pattern: /=.*/,
@@ -5076,7 +5179,7 @@ Prism.hooks.add('wrap', function(env) {
 			}
 
 			// To prevent double HTML-encoding we have to decode env.content first
-			env.content = env.content.replace(/&amp;/g, '&').replace(/&lt;/g, '<');
+			env.content = env.content.replace(/&lt;/g, '<').replace(/&amp;/g, '&');
 
 			env.content = Prism.highlight(env.content, {
 				'expression': {
