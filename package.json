@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/sergeyt/prismjs-package",
   "dependencies": {
-    "lodash": "^4.17.2"
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "eslint": "^3.12.2",
