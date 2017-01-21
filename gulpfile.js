@@ -34,24 +34,20 @@ function loadLanguages() {
   const components = loadComponents();
 
   const langs = _.toPairs(components.languages)
-    .map(p => {
+    .map((p) => {
       const obj = p[1];
       obj.id = p[0].toLowerCase();
       obj.deps = obj.require ? [obj.require] : [];
       return obj;
     })
-    .filter(t =>
-      t.id !== 'meta' && excludedLanguages.indexOf(t.id) < 0
-    );
+    .filter(t => t.id !== 'meta' && excludedLanguages.indexOf(t.id) < 0);
 
   // order languages by "require"
   return toposort(langs).filter(_.identity);
 }
 
 // task to build prism package
-gulp.task('default', () =>
-  runSequence('pull', ['css', 'js'], 'test')
-);
+gulp.task('default', () => runSequence('pull', ['css', 'js'], 'test'));
 
 gulp.task('test', () => {
   const Prism = require('./src/prism.js'); // eslint-disable-line
@@ -68,27 +64,27 @@ gulp.task('test', () => {
   console.log(s);
 });
 
-gulp.task('pull', done => {
+gulp.task('pull', (done) => {
   if (fs.existsSync('prism')) {
     git.pull('origin', 'gh-pages', {
       cwd: path.join(__dirname, 'prism'),
-    }, err => {
+    }, (err) => {
       if (err) throw err;
       done();
     });
   } else {
-    git.clone('https://github.com/prismjs/prism', err => {
+    git.clone('https://github.com/prismjs/prism', (err) => {
       if (err) throw err;
       done();
     });
   }
 });
 
-gulp.task('css', () =>
+gulp.task('css', () => {
   // lets try okaidia.css
   gulp.src('prism/themes/*.css')
-    .pipe(gulp.dest('./themes'))
-);
+    .pipe(gulp.dest('./themes'));
+});
 
 gulp.task('js', () => {
   const components = loadComponents();

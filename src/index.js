@@ -7,14 +7,14 @@ const aliases = {
   csharp: 'c#',
 };
 
-_.toPairs(aliases).forEach(p => {
+_.toPairs(aliases).forEach((p) => {
   const lang = Prism.languages[p[0]];
   if (!lang) return;
   const alt = p[1];
   if (_.isString(alt)) {
     Prism.languages[alt] = lang;
   } else if (_.isArray(alt)) {
-    alt.forEach(a => {
+    alt.forEach((a) => {
       Prism.languages[a] = lang;
     });
   }
