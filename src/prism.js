@@ -2033,7 +2033,7 @@ Prism.languages.rust = {
 				}
 			},
 			{
-				pattern: /(^|[^/])\/(?!\/)(\[.+?]|\\.|[^/\r\n])+\/[gim]{0,3}(?=\s*($|[\r\n,.;})]))/,
+				pattern: /(^|[^/])\/(?!\/)(\[.+?]|\\.|[^/\\\r\n])+\/[gim]{0,3}(?=\s*($|[\r\n,.;})]))/,
 				lookbehind: true
 			}
 		],
@@ -4331,13 +4331,13 @@ Prism.languages.julia= {
 ********************************************** */
 
 Prism.languages.json = {
-    'property': /"(?:\\.|[^|"])*"(?=\s*:)/ig,
-    'string': /"(?!:)(?:\\.|[^|"])*"(?!:)/g,
-    'number': /\b-?(0x[\dA-Fa-f]+|\d*\.?\d+([Ee][+-]?\d+)?)\b/g,
-    'punctuation': /[{}[\]);,]/g,
-    'operator': /:/g,
-    'boolean': /\b(true|false)\b/gi,
-    'null': /\bnull\b/gi
+	'property': /"(?:\\.|[^\\"])*"(?=\s*:)/ig,
+	'string': /"(?!:)(?:\\.|[^\\"])*"(?!:)/g,
+	'number': /\b-?(0x[\dA-Fa-f]+|\d*\.?\d+([Ee][+-]?\d+)?)\b/g,
+	'punctuation': /[{}[\]);,]/g,
+	'operator': /:/g,
+	'boolean': /\b(true|false)\b/gi,
+	'null': /\bnull\b/gi
 };
 
 Prism.languages.jsonp = Prism.languages.json;
