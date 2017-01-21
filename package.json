@@ -1,6 +1,6 @@
 {
   "name": "prismjs-package",
-  "version": "0.7.24",
+  "version": "0.7.25",
   "description": "prismjs syntax highlighter compiled as npm package",
   "main": "./lib/index.js",
   "scripts": {
