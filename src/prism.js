@@ -2452,7 +2452,7 @@ var javascript = Prism.util.clone(Prism.languages.javascript);
 Prism.languages.jsx = Prism.languages.extend('markup', javascript);
 Prism.languages.jsx.tag.pattern= /<\/?[\w\.:-]+\s*(?:\s+(?:[\w\.:-]+(?:=(?:("|')(\\?[\w\W])*?\1|[^\s'">=]+|(\{[\w\W]*?\})))?|\{\.{3}\w+\})\s*)*\/?>/i;
 
-Prism.languages.jsx.tag.inside['attr-value'].pattern = /=[^\{](?:('|")[\w\W]*?(\1)|[^\s>]+)/i;
+Prism.languages.jsx.tag.inside['attr-value'].pattern = /=(?!\{)(?:('|")[\w\W]*?(\1)|[^\s>]+)/i;
 
 Prism.languages.insertBefore('inside', 'attr-name', {
 	'spread': {
@@ -6052,7 +6052,7 @@ Prism.languages.insertBefore('css', 'function', {
 (function(Prism) {
 	Prism.languages.crystal = Prism.languages.extend('ruby', {
 		keyword: [
-			/\b(?:abstract|alias|as|asm|begin|break|case|class|def|do|else|elsif|end|ensure|enum|extend|for|fun|if|ifdef|include|instance_sizeof|lib|macro|module|next|of|out|pointerof|private|protected|rescue|return|require|self|sizeof|struct|super|then|type|typeof|union|unless|until|when|while|with|yield|__DIR__|__FILE__|__LINE__)\b/,
+			/\b(?:abstract|alias|as|asm|begin|break|case|class|def|do|else|elsif|end|ensure|enum|extend|for|fun|if|include|instance_sizeof|lib|macro|module|next|of|out|pointerof|private|protected|rescue|return|require|select|self|sizeof|struct|super|then|type|typeof|uninitialized|union|unless|until|when|while|with|yield|__DIR__|__END_LINE__|__FILE__|__LINE__)\b/,
 			{
 				pattern: /(\.\s*)(?:is_a|responds_to)\?/,
 				lookbehind: true

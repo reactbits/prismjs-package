@@ -26,19 +26,19 @@
     "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "eslint": "^3.16.1",
+    "eslint": "^3.18.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
-    "gulp-git": "^2.0.0",
+    "gulp-git": "^2.1.0",
     "gulp-header": "^1.8.8",
     "gulp-rename": "^1.2.2",
     "gulp-wrapper": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
-    "jquery": "^3.1.1",
+    "jquery": "^3.2.0",
     "obj-toposort": "^2.0.0",
     "react": "^15.4.2",
-    "react-bootstrap": "^0.30.7",
-    "react-devpack": "^0.3.1",
+    "react-bootstrap": "^0.30.8",
+    "react-devpack": "^0.3.8",
     "react-dom": "^15.4.2",
     "run-sequence": "^1.2.2"
   }
